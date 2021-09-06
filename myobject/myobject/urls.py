@@ -18,7 +18,7 @@ from django.urls import path, re_path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^myadmin$', include('myadmin.urls', namespace='myadmin')),
-    re_path(r'^web$', include('web.urls', namespace='web')),
-    re_path(r'^mobile$', include('mobile.urls', namespace='mobile')),
+    re_path(r'', include(('myadmin.urls', 'myadmin'), namespace='myadmin')),
+    re_path(r'^web$', include(('web.urls', 'web'), namespace='web')),
+    re_path(r'^mobile$', include(('mobile.urls', 'mobile'), namespace='mobile')),
 ]
