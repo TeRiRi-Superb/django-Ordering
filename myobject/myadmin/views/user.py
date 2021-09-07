@@ -67,4 +67,16 @@ class AddVIP(View):
         return redirect(reverse('myadmin:adduser'))
 
 
+class DelVIP(View):
+    '''
+    删除员工
+    '''
+    def get(self, request, userid):
+        page = request.GET.get('page')
+        delid = User.objects.get(id=userid)
+        delid.delete()
+
+        return redirect(reverse('myadmin:VIP', kwargs={'page': page}))  # 删除成功之后还留在原来的页码面
+
+
 
