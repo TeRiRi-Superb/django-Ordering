@@ -268,16 +268,30 @@
 
 <script type="text/javascript">
 
-    {#Modal.confirm({#}
-    {#    msg: "确定要删除吗？",#}
-    {#    title: ' 信息提示',#}
-    {#    btnok: '确定',#}
-    {#    btncl:'取消'#}
-    {#  }).on(function (e){#}
-    {#    if(e){#}
-    {#      Modal.alert({msg: "成功删除",title: ' 信息提示',btnok: '确定',btncl:'取消'});#}
-    {#    }#}
-    {#  });#}
+    function delMO(url) {
+        Modal.confirm({
+            msg: "确定要删除吗？",
+            title: ' 信息提示',
+            btnok: '确定',
+            btncl: '取消'
+        }).on(function (e) {
+            if (e) {
+                window.location.href=url
+            }
+        });
+    }
+    function upMO(url) {
+        Modal.confirm({
+            msg: "确定要编辑员工吗？",
+            title: ' 信息提示',
+            btnok: '确定',
+            btncl: '取消'
+        }).on(function (e) {
+            if (e) {
+                window.location.href=url
+            }
+        });
+    }
 </script>
 </body>
 </html>

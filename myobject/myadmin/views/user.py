@@ -45,26 +45,30 @@ class AddVIP(View):
         return render(request, 'myadmin/user/add.html')
 
     def post(self, request):
-        user = request.POST.get('user')
-        username = request.POST.get('username')
-        n = random.randint(100000, 999999)
-        pwd = request.POST.get('pwd')+str(n)
+        try:
+            user = request.POST.get('user')
+            username = request.POST.get('username')
+            n = random.randint(100000, 999999)
+            pwd = request.POST.get('pwd')+str(n)
 
+            # 进行密码加密
+            md5 = hashlib.md5()
+            md5.update(pwd.encode('UTF-8'))
 
-        md5 = hashlib.md5()
-        md5.update(pwd.encode('UTF-8'))
+            addUer = User()
+            addUer.username = user
+            addUer.nickname = username
+            addUer.password_hash = pwd
+            addUer.password_salt = n
+            addUer.status = 1
+            addUer.create_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            addUer.update_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            addUer.save()
+            context = {'info': '保存成功'}
+        except Exception as e:
+            context = {'info': '保存失败'}
 
-        addUer = User()
-        addUer.username = user
-        addUer.nickname = username
-        addUer.password_hash = pwd
-        addUer.password_salt = n
-        addUer.status = 1
-        addUer.create_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        addUer.update_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        addUer.save()
-
-        return redirect(reverse('myadmin:adduser'))
+        return render(request, 'myadmin/user/info.html', context)
 
 
 class DelVIP(View):
@@ -72,11 +76,47 @@ class DelVIP(View):
     删除员工
     '''
     def get(self, request, userid):
-        page = request.GET.get('page')
-        delid = User.objects.get(id=userid)
-        delid.delete()
+        try:
+            # page = request.GET.get('page')
+            delid = User.objects.get(id=userid)
+            delid.delete()
+            context = {'info': '删除成功'}
+        except Exception as e:
+            context = {'info': '删除失败'}
 
-        return redirect(reverse('myadmin:VIP', kwargs={'page': page}))  # 删除成功之后还留在原来的页码面
+        return render(request, 'myadmin/user/info.html', context)
+        # return redirect(reverse('myadmin:VIP', kwargs={'page': page}))  # 删除成功之后还留在原来的页码面、
+
+
+class EditVIP(View):
+    def get(self, request, userid):
+        try:
+            uid = User.objects.get(id=userid)
+            context = {'uid': uid}
+            return render(request, 'myadmin/user/edit.html', context)
+        except Exception as e:
+            context = {'info': '修改信息错误'}
+            print(e)
+            return render(request, 'myadmin/user/info.html', context)
+
+    def post(self, request, userid):
+        username = request.POST.get('user')
+        nickname = request.POST.get('username')
+        status = request.POST.get('status')
+
+        try:
+            uVIP = User.objects.get(id=userid)
+            uVIP.username = username
+            uVIP.nickname = nickname
+            uVIP.status = status
+            uVIP.update_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            uVIP.save()
+
+            context = {'info': '修改成功'}
+        except Exception as e:
+            context = {'info': '修改失败'}
+
+        return render(request, 'myadmin/user/info.html', context)
 
 
 

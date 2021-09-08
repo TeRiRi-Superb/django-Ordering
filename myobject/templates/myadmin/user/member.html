@@ -66,10 +66,11 @@
                       <td>{{ ls.create_at }}</td>
                       <td>{{ ls.update_at }}</td>
                       <td>
-                        <button type="button" class="btn btn-success btn-xs"/>
-                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>
-                        <a href="{% url 'myadmin:deluser' ls.id%}?page={{ page |join:''}}"><button type="button" class="btn btn-danger btn-xs">
-                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</button></a>
+                        <button onclick="upMO('{% url 'myadmin:edituser' ls.id%}')" type="button" class="btn btn-success btn-xs">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 编辑</button>
+{#                          delMO触发点击事件运行对应的函数#}
+                        <button onclick="delMO('{% url 'myadmin:deluser' ls.id%}')" type="button" class="btn btn-danger btn-xs">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</button>
                         <button type="button" class="btn btn-warning btn-xs"/>
                           <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查看订单</button>
                       </td>
