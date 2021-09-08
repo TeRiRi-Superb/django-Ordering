@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.urls import path, re_path
 from myadmin.views.index import indexView
-from myadmin.views.user import VIPadmin, AddVIP, DelVIP
+from myadmin.views.user import VIPadmin, AddVIP, DelVIP, EditVIP
 
 urlpatterns = [
     re_path(r'^index$', indexView.as_view(), name='index'),
     re_path(r'^VIP(?P<page>.*)$', VIPadmin.as_view(), name='VIP'),
     re_path(r'^adduser$', AddVIP.as_view(), name='adduser'),
     re_path(r'^deluser(?P<userid>.*)$', DelVIP.as_view(), name='deluser'),
+    re_path(r'^edituser(?P<userid>.*)$', EditVIP.as_view(), name='edituser'),
 ]
