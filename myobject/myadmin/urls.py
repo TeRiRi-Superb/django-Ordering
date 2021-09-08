@@ -18,7 +18,8 @@ from myadmin.views.index import indexView, login_User
 from myadmin.views.user import VIPadmin, AddVIP, DelVIP, EditVIP
 
 urlpatterns = [
-    path('/login/', login_User.as_view(), name='login'),
+    path('login/', login_User.as_view(), name='login'),
+    path('logout/', login_User.as_view(), name='logout'),
 
     re_path(r'^index$', indexView.as_view(), name='index'),
     re_path(r'^VIP(?P<page>.*)$', VIPadmin.as_view(), name='VIP'),

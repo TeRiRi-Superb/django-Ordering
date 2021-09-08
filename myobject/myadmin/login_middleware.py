@@ -1,4 +1,5 @@
 from django.shortcuts import reverse, redirect
+import re
 
 
 class SimpleMiddleware:
@@ -9,6 +10,14 @@ class SimpleMiddleware:
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
+        path = request.path
+
+        pathlist = [reverse('myadmin:login'), reverse('myadmin:logout')]
+
+        if re.match(r'^/myadmin', path) and (path not in pathlist):
+            # 通过session判断是否登录
+            if 'login_user' not in request.session:
+                return redirect(reverse('myadmin:login'))
 
         response = self.get_response(request)
 
