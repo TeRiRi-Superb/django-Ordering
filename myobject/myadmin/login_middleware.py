@@ -12,7 +12,7 @@ class SimpleMiddleware:
         # the view (and later middleware) are called.
         path = request.path
 
-        pathlist = [reverse('myadmin:login'), reverse('myadmin:logout')]
+        pathlist = [reverse('myadmin:login'), reverse('myadmin:logout'), reverse('myadmin:verify')]
 
         if re.match(r'^/myadmin', path) and (path not in pathlist):
             # 通过session判断是否登录

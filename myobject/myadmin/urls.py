@@ -14,12 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, re_path
-from myadmin.views.index import indexView, login_User
+from myadmin.views.index import indexView, login_User, logout_User, verify
 from myadmin.views.user import VIPadmin, AddVIP, DelVIP, EditVIP
 
 urlpatterns = [
     path('login/', login_User.as_view(), name='login'),
-    path('logout/', login_User.as_view(), name='logout'),
+    path('logout/', logout_User.as_view(), name='logout'),
+    path('verify/', verify, name='verify'),
 
     re_path(r'^index$', indexView.as_view(), name='index'),
     re_path(r'^VIP(?P<page>.*)$', VIPadmin.as_view(), name='VIP'),

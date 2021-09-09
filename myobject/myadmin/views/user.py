@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.core.paginator import Paginator
 from django.db.models import Q
 from myadmin.models import User
-import hashlib,random,datetime
+import hashlib, random, datetime
 
 
 class VIPadmin(View):
@@ -49,7 +49,7 @@ class AddVIP(View):
             user = request.POST.get('user')
             username = request.POST.get('username')
             n = random.randint(100000, 999999)
-            pwd = request.POST.get('pwd')+str(n)
+            pwd = request.POST.get('pwd') + str(n)
 
             # 进行密码加密
             md5 = hashlib.md5()
@@ -58,7 +58,7 @@ class AddVIP(View):
             addUer = User()
             addUer.username = user
             addUer.nickname = username
-            addUer.password_hash = pwd
+            addUer.password_hash = md5.hexdigest()
             addUer.password_salt = n
             addUer.status = 1
             addUer.create_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
