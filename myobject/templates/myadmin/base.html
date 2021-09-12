@@ -204,7 +204,7 @@
         <li class="active"><a href={% url 'myadmin:index' %}><i class="fa fa-home"></i> <span>首页</span></a></li>
 
         <li><a href={% url 'myadmin:VIP' 1 %}><i class="fa fa-users"></i> <span>员工管理</span></a></li>
-        <li><a href="shop.html"><i class="fa fa-sitemap"></i> <span>店铺管理</span></a></li>
+        <li><a href="{% url 'myadmin:shop' 1 %}"><i class="fa fa-sitemap"></i> <span>店铺管理</span></a></li>
         <li class="treeview">
           <a href="category.html"><i class="fa fa-cutlery"></i> <span>菜品管理</span>
             <span class="pull-right-container">

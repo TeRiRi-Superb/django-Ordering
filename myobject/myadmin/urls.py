@@ -16,11 +16,17 @@ Including another URLconf
 from django.urls import path, re_path
 from myadmin.views.index import indexView, login_User, logout_User, verify
 from myadmin.views.user import VIPadmin, AddVIP, DelVIP, EditVIP
+from myadmin.views.shop import ShopView, AddShop, DelShop, UpdateShop
 
 urlpatterns = [
     path('login/', login_User.as_view(), name='login'),
     path('logout/', logout_User.as_view(), name='logout'),
     path('verify/', verify, name='verify'),
+
+    re_path(r'^shop(?P<page>.*)$', ShopView.as_view(), name='shop'),
+    path('addshop/', AddShop.as_view(), name='addshop'),
+    re_path(r'^delshop(?P<shopid>.*)$', DelShop.as_view(), name='delshop'),
+    re_path(r'^updateshop(?P<shopid>.*)$', UpdateShop.as_view(), name='updateshop'),
 
     re_path(r'^index$', indexView.as_view(), name='index'),
     re_path(r'^VIP(?P<page>.*)$', VIPadmin.as_view(), name='VIP'),
