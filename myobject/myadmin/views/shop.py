@@ -4,6 +4,7 @@ from myadmin.models import Shop
 from django.db.models import Q
 from django.core.paginator import Paginator
 import datetime
+import time
 
 
 class ShopView(View):
@@ -47,13 +48,31 @@ class AddShop(View):
         shopname = request.POST.get('shopname')
         phone = request.POST.get('phone')
         address = request.POST.get('address')
-        shop_img = request.POST.get('shop_img')
-        shop_logo = request.POST.get('shop_logo')
+        shop_img = request.FILES.get('shop_img')
+        print(shop_img)
+        shop_logo = request.FILES.get('shop_logo')
+
+        if not shop_img:
+            return HttpResponse('无图片信息')
+        else:
+            cover_pic = str(time.time()) + '.' + shop_img.name.split('.').pop()
+            with open(f'static/uploads/shop/{cover_pic}', 'wb+') as f:
+                for chunk in shop_img.chunks():
+                    f.write(chunk)
+
+        if not shop_logo:
+            return HttpResponse('无图片信息')
+        else:
+            banner_pic = str(time.time()) + '.' + shop_logo.name.split('.').pop()
+            with open(f'static/uploads/shop/{banner_pic}', 'wb+') as f:
+                for chunk in shop_logo.chunks():
+                    f.write(chunk)
+
         try:
             add_shop = Shop()
             add_shop.name = shopname
-            add_shop.cover_pic = shop_img
-            add_shop.banner_pic = shop_logo
+            add_shop.cover_pic = cover_pic
+            add_shop.banner_pic = banner_pic
             add_shop.address = address
             add_shop.phone = phone
             add_shop.status = 1
@@ -105,8 +124,6 @@ class UpdateShop(View):
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         address = request.POST.get('address')
-        shop_img = request.POST.get('shop_img')
-        shop_logo = request.POST.get('shop_logo')
         status = request.POST.get('status')
 
         try:
@@ -115,8 +132,6 @@ class UpdateShop(View):
             shops.phone = phone
             shops.status = status
             shops.address = address
-            shops.cover_pic = shop_img
-            shops.banner_pic = shop_logo
             shops.update_at = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             shops.save()
 

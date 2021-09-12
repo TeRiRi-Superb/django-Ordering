@@ -54,8 +54,8 @@
                     {% for shop in shops %}
                   <td>{{ shop.id }}</td>
                   <td>{{ shop.name }}</td>
-                  <td><img style="height:40px" src="{% static 'myadmin/dist/img/photo1.png' %}"></td>
-                  <td><img style="height:40px" src="{% static 'myadmin/dist/img/logo.png' %}"></td>
+                  <td><img style="height:40px" src="{% static 'uploads/shop/' %}{{ shop.cover_pic }}"></td>
+                  <td><img style="height:40px" src="{% static 'uploads/shop/' %}{{ shop.banner_pic }}"></td>
                   <td>{{ shop.phone }}</td>
                   <td>{%if shop.status == 1%}<span class="label label-success">正常
                       {% elif shop.status == 2 %}<span class="label label-default">暂停
