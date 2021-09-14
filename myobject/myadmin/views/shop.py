@@ -19,6 +19,7 @@ class ShopView(View):
             where.append('table_search=' + table_search)  # 储存搜索信息 在跳转页面时保持搜索
 
         paginator = Paginator(shops, 5)
+        print(type(page))
         page = int(page)
         maxindex = paginator.num_pages  # 获取最大列表数
 

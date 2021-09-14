@@ -17,6 +17,7 @@ from django.urls import path, re_path
 from myadmin.views.index import indexView, login_User, logout_User, verify
 from myadmin.views.user import VIPadmin, AddVIP, DelVIP, EditVIP
 from myadmin.views.shop import ShopView, AddShop, DelShop, UpdateShop
+from myadmin.views.category import CateGoryView, DelCategory, EditCategory, AddCategory
 
 urlpatterns = [
     path('login/', login_User.as_view(), name='login'),
@@ -27,6 +28,11 @@ urlpatterns = [
     path('addshop/', AddShop.as_view(), name='addshop'),
     re_path(r'^delshop(?P<shopid>.*)$', DelShop.as_view(), name='delshop'),
     re_path(r'^updateshop(?P<shopid>.*)$', UpdateShop.as_view(), name='updateshop'),
+
+    re_path(r'^category(?P<page>.*)$', CateGoryView.as_view(), name='category'),
+    re_path(r'^delcate(?P<cate_id>.*)$', DelCategory.as_view(), name='delcate'),
+    re_path(r'^editcate(?P<cate_id>.*)$', EditCategory.as_view(), name='editcate'),
+    path('addcate/', AddCategory.as_view(), name='addcate'),
 
     re_path(r'^index$', indexView.as_view(), name='index'),
     re_path(r'^VIP(?P<page>.*)$', VIPadmin.as_view(), name='VIP'),
