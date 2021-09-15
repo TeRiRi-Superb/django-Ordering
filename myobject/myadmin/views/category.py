@@ -8,23 +8,24 @@ import datetime
 
 class CateGoryView(View):
     def get(self, request, page):
-        cates = Category.objects.all()
+        cates = Category.objects.all().order_by('id')
 
         search = request.GET.get('table_search')
         mywhere = []
 
         if search:
-            cates = Category.objects.filter(name__contains=search)
+            cates = Category.objects.filter(name__contains=search).order_by('id')
             mywhere.append('table_search=' + search)
 
         try:
             for cate in cates:
                 shop_id = cate.shop_id
-                shop_name = Shop.objects.get(id=shop_id).name
-
+                print(shop_id)
+                shop_n = Shop.objects.get(id=shop_id)
+                shop_name = shop_n.name
                 cate.shop_name = shop_name
         except Exception as e:
-            print('数据错误')
+            print('数据错误', e)
 
         paginator = Paginator(cates, 10)
         page = int(page)
@@ -118,7 +119,17 @@ class AddCategory(View):
 
     def post(self, request):
         shop_id = request.POST.get('shop')
-        name = request.POST.get('name')
+        name = request.POST.get('category')
+
+        if not all([shop_id, name]):
+            context = {
+                'info': '数据不全'
+            }
+            return render(request, 'myadmin/user/info.html', context)
+
+        create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        Category.objects.create(shop_id=shop_id, name=name, status=1, create_at=create_time, update_at=create_time)
 
         context = {
             'info': '添加成功'
