@@ -9,12 +9,12 @@ import hashlib, random, datetime
 class VIPadmin(View):
     '''会员管理类'''
     def get(self, request, page=1):
-        ulist = User.objects.all()
+        ulist = User.objects.all().order_by('id')
         mywhere = []
 
         content = request.GET.get('table_search', None)
         if content:
-            ulist = User.objects.filter(Q(username__contains=content) | Q(nickname__contains=content))
+            ulist = User.objects.filter(Q(username__contains=content) | Q(nickname__contains=content)).order_by('id')
             mywhere.append('table_search=' + content)  # 封装搜索条件 防止在分页之后点击下一页 搜索条件失效
 
         paginator = Paginator(ulist, 5)
