@@ -18,6 +18,7 @@ from myadmin.views.index import indexView, login_User, logout_User, verify
 from myadmin.views.user import VIPadmin, AddVIP, DelVIP, EditVIP
 from myadmin.views.shop import ShopView, AddShop, DelShop, UpdateShop
 from myadmin.views.category import CateGoryView, DelCategory, EditCategory, AddCategory
+from myadmin.views.variety import VarietyView, AddVariety, DelVariety, EditVariety
 
 urlpatterns = [
     path('login/', login_User.as_view(), name='login'),
@@ -33,6 +34,11 @@ urlpatterns = [
     re_path(r'^delcate(?P<cate_id>.*)$', DelCategory.as_view(), name='delcate'),
     re_path(r'^editcate(?P<cate_id>.*)$', EditCategory.as_view(), name='editcate'),
     path('addcate/', AddCategory.as_view(), name='addcate'),
+
+    re_path(r'^variety(?P<page>.*)$', VarietyView.as_view(), name='variety'),
+    path('addvariety/', AddVariety.as_view(), name='addvariety'),
+    re_path(r'^delvariety(?P<variety_id>.*)$', DelVariety.as_view(), name='delvariety'),
+    re_path(r'^editvariety(?P<product_id>.*)$', EditVariety.as_view(), name='editvariety'),
 
     re_path(r'^index$', indexView.as_view(), name='index'),
     re_path(r'^VIP(?P<page>.*)$', VIPadmin.as_view(), name='VIP'),

@@ -88,7 +88,7 @@
                         class="active"
                         {% endif %}><a href={% url 'myadmin:category' p%}?{{ mywhere|join:''}}>{{ p }}</a></li>
                   {% endfor %}
-                  {% if ulist.has_next %}
+                  {% if cates.has_next %}
                   <li><a href={% url 'myadmin:category' page|add:1%}?{{ mywhere|join:''}}>&#8674</a></li>
                   {% endif %}
               </ul>

@@ -50,7 +50,6 @@ class AddShop(View):
         phone = request.POST.get('phone')
         address = request.POST.get('address')
         shop_img = request.FILES.get('shop_img')
-        print(shop_img)
         shop_logo = request.FILES.get('shop_logo')
 
         if not shop_img:

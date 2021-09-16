@@ -90,7 +90,7 @@
                         class="active"
                     {% endif %}><a href={% url 'myadmin:shop' p%}?{{ where|join:''}}>{{ p }}</a></li>
                   {% endfor %}
-                  {% if ulist.has_next %}
+                  {% if shops.has_next %}
                   <li><a href={% url 'myadmin:shop' page|add:1%}?{{ where|join:''}}>&#8674</a></li>
                   {% endif %}
               </ul>

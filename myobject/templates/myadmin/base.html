@@ -212,8 +212,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="category.html"> <i class="fa fa-circle-o"></i> 菜品分类</a></li>
-            <li><a href="product.html"> <i class="fa fa-circle-o"></i> 菜品信息</a></li>
+            <li><a href="{% url 'myadmin:category' 1 %}"> <i class="fa fa-circle-o"></i> 菜品分类</a></li>
+            <li><a href="{% url 'myadmin:variety' 1 %}"> <i class="fa fa-circle-o"></i> 菜品信息</a></li>
           </ul>
         </li>
         <li><a href="orders.html"><i class="fa fa-shopping-cart"></i> <span>订单管理</span></a></li>
