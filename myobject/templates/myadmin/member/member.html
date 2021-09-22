@@ -1,0 +1,103 @@
+{% extends 'myadmin/base.html' %}
+{% load static %}
+{% block main %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        会员管理
+        <small>订餐系统后台管理</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">会员管理</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">会员信息表</h3>
+
+              <div class="box-tools">
+                  <form method="get">
+{#                      反向解析有参数的需要放在url里 放在外面会报错 因为url反向解析式接收不到参数#}
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                          <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                          <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                          </div>
+                        </div>
+                  </form>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th>ID</th>
+                  <th>昵称</th>
+                  <th>头像</th>
+                  <th>当前状态</th>
+                  <th>添加时间</th>
+                  <th>修改时间</th>
+                  <th width="200">操作</th>
+                </tr>
+                  {% for member in members %}
+                      <tr>
+                      <td>{{ member.id }}</td>
+                      <td>{{ member.nickname }}</td>
+                      <td><img style="height:40px" src="{% static 'uploads/member/' %}{{ member.avatar }}"></td>
+                      <td>{% if member.status == 1 %}
+                            <span class="label label-success">正常</span>
+                          {% elif member.status == 2 %}
+                          <span class="label label-danger">禁用</span>
+                          {% else %}
+                              <span class="label label-danger">删除</span>
+                          {% endif %}
+                      </td>
+                      <td>{{ member.create_at }}</td>
+                      <td>{{ member.update_at }}</td>
+                      <td>
+                        <button onclick="upMO('{% url 'myadmin:editmember' member.id%}')" type="button" class="btn btn-success btn-xs">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 编辑</button>
+{#                          delMO触发点击事件运行对应的函数#}
+                        <button onclick="delMO('{% url 'myadmin:delmember' member.id%}')" type="button" class="btn btn-danger btn-xs">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</button>
+                      </td>
+                    </tr>
+                  {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+{#              分页#}
+            <div class="box-footer clearfix">
+              <ul class="pagination pagination-sm no-margin pull-right">
+                  {% if cates.has_previous %}
+                      <li><a href={% url 'myadmin:member' page|add:-1 %}?{{ mywhere|join:''}}>&#8672</a></li>
+                  {% endif %}
+                  {% for p in pagerange %}
+                    <li {% if p == page%}
+                        class="active"
+                        {% endif %}><a href={% url 'myadmin:member' p%}?{{ mywhere|join:''}}>{{ p }}</a></li>
+                  {% endfor %}
+                  {% if cates.has_next %}
+                  <li><a href={% url 'myadmin:member' page|add:1%}?{{ mywhere|join:''}}>&#8674</a></li>
+                  {% endif %}
+              </ul>
+            </div>
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock %}
