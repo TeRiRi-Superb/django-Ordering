@@ -6,7 +6,8 @@ import hashlib
 
 class IndexView(View):
     def get(self, request):
-        return render(request, 'web/index.html')
+        context = {'categorylist': request.session.get("categorylist", {}).items()}
+        return render(request, 'web/index.html', context)
 
 
 class LoginView(View):
@@ -22,17 +23,44 @@ class LoginView(View):
         pwd = request.POST.get('pass')
         code = request.POST.get('code')
         verifycode = request.session['verifycode']
+        shop_id = request.POST.get('shop_id')
+
+        if not all([username, pwd, code, shop_id]):
+            context = {
+                'info': '账号或密码错误'
+            }
+
+            return render(request, 'web/login.html', context)
 
         try:
             user = User.objects.get(username=username)
+            # 记录店铺信息
+            shop = Shop.objects.get(id=shop_id)
+            request.session['shop_name'] = shop.toDict()
+
             if verifycode == code:
+                # 解码密码
                 md5 = hashlib.md5()
                 password = pwd + user.password_salt
                 md5.update(password.encode('UTF-8'))
+
+                categorys = Category.objects.filter(shop_id=shop_id, status=1)
+                categorylist = dict()  # 菜品类别（内含有菜品信息）
+                productlist = dict()  # 菜品信息
+
                 if user.password_hash == md5.hexdigest():
-                    context = {'info': '登陆成功'}
                     # 将user的信息转换成字典存入session
                     request.session['web_user'] = user.toDict()
+                    for category in categorys:
+                        c = {'c_id': category.id, 'name': category.name, 'pid': []}
+                        plist = Product.objects.filter(category_id=category.id, status=1)
+                        for p in plist:
+                            c['pid'].append(p.toDict())
+                            productlist[p.id] = p.toDict()
+                        categorylist[category.id] = c
+                    print(categorylist)
+                    request.session['categorylist'] = categorylist
+                    request.session['productlist'] = productlist
                     return redirect(reverse('web:web_index'))
                 else:
                     context = {'info': '账号或密码错误'}
@@ -49,6 +77,7 @@ class LoginView(View):
 
 def logout(request):
     del request.session['web_user']
+    del request.session['shop_name']
     return redirect(reverse('web:web_login'))
 
 
