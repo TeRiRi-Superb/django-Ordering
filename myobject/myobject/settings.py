@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'myadmin',
     'web',
     'mobile',
-
 ]
 
 MIDDLEWARE = [
