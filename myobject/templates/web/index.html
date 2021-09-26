@@ -77,34 +77,15 @@
                             <th width="45">单价</th>
                             <th>删除</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>梅菜扣肉+番茄鸡蛋</td>
-                            <td class="num"><i class="btn btn-default btn-xs"> - </i><span>1</span><i class="btn btn-default btn-xs"> + </i></td>
-                            <td class="price">38.00</td>
-                            <td><a href="#" class="btn btn-danger btn-xs" role="button">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>梅菜扣肉</td>
-                            <td class="num"><i class="btn btn-default btn-xs"> - </i><span>1</span><i class="btn btn-default btn-xs"> + </i></td>
-                            <td class="price">25.00</td>
-                            <td><a href="#" class="btn btn-danger btn-xs" role="button">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>梅菜扣肉</td>
-                            <td class="num"><i class="btn btn-default btn-xs"> - </i><span>1</span><i class="btn btn-default btn-xs"> + </i></td>
-                            <td class="price">25.00</td>
-                            <td><a href="#" class="btn btn-danger btn-xs" role="button">删除</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>梅菜扣肉</td>
-                            <td class="num"><i class="btn btn-default btn-xs"> - </i><span>1</span><i class="btn btn-default btn-xs"> + </i></td>
-                            <td class="price">25.00</td>
-                            <td><a href="#" class="btn btn-danger btn-xs" role="button">删除</a></td>
-                        </tr>
+                        {% for cart in request.session.cartlist.values %}
+                            <tr>
+                                <td>{{ forloop.counter}}</td>
+                                <td>{{ cart.name }}</td>
+                                <td class="num"><i class="btn btn-default btn-xs"> - </i><span>1</span><i class="btn btn-default btn-xs"> + </i></td>
+                                <td class="price">{{ cart.price }}</td>
+                                <td><a href="#" class="btn btn-danger btn-xs" role="button">删除</a></td>
+                            </tr>
+                        {% endfor %}
                     </table>
                     
                     <li class="list-group-item">
@@ -139,7 +120,7 @@
                       <div class="caption">
                         <h6>{{ p.name }}</h6>
                         <div class="bn">￥<span class="price">{{ p.price }}</span>元</a>
-                        <a href="#" class="btn btn-warning btn-xs pull-right" role="button"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购买</a></div>
+                        <a href="{% url 'web:addcart' p.id %}" class="btn btn-warning btn-xs pull-right" role="button"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购买</a></div>
                       </div>
                     </div>
                 </div>
