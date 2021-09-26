@@ -6,6 +6,15 @@ import hashlib
 
 class IndexView(View):
     def get(self, request):
+        cartlist = request.session.get('cartlist', {})
+        total_mo = 0
+
+        for cart in cartlist.values():
+            print(cart)
+            total_mo = cart['num'] * cart['price']
+
+        request.session['total_mo'] = total_mo
+
         context = {'categorylist': request.session.get("categorylist", {}).items()}
         return render(request, 'web/index.html', context)
 
@@ -58,7 +67,7 @@ class LoginView(View):
                             c['pid'].append(p.toDict())
                             productlist[p.id] = p.toDict()
                         categorylist[category.id] = c
-                    print(categorylist)
+
                     request.session['categorylist'] = categorylist
                     request.session['productlist'] = productlist
                     return redirect(reverse('web:web_index'))
@@ -78,6 +87,7 @@ class LoginView(View):
 def logout(request):
     del request.session['web_user']
     del request.session['shop_name']
+    del request.session['cartlist']
     return redirect(reverse('web:web_login'))
 
 
