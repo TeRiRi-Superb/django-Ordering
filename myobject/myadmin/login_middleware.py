@@ -19,6 +19,11 @@ class SimpleMiddleware:
             if 'login_user' not in request.session:
                 return redirect(reverse('myadmin:login'))
 
+        if re.match(r'^/web', path):
+            # 通过session判断是否登录
+            if 'web_user' not in request.session:
+                return redirect(reverse('web:web_login'))
+
         response = self.get_response(request)
 
         # Code to be executed for each request/response after
