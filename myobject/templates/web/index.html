@@ -81,9 +81,9 @@
                             <tr>
                                 <td>{{ forloop.counter}}</td>
                                 <td>{{ cart.name }}</td>
-                                <td class="num"><i class="btn btn-default btn-xs"> - </i><span>1</span><i class="btn btn-default btn-xs"> + </i></td>
+                                <td class="num"><i class="btn btn-default btn-xs" onclick="window.location='{% url 'web:changecart' cart.id %}?num=-1'"> - </i><span>{{ cart.num }}</span><i class="btn btn-default btn-xs" onclick="window.location='{% url 'web:changecart' cart.id %}?num=1'"> + </i></td>
                                 <td class="price">{{ cart.price }}</td>
-                                <td><a href="#" class="btn btn-danger btn-xs" role="button">删除</a></td>
+                                <td><a href="{% url 'web:delcart' cart.id %}" class="btn btn-danger btn-xs" role="button">删除</a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -101,8 +101,9 @@
                     </li>
 
                     <div class="panel-footer" style="height:50px">
-                        <div style="width:120px;float:left;margin:5px 0px;">合计：￥<span style="color:red;font-weight:bold;">168.00</span> 元</div>
-                        <button type="submit" class="btn btn-warning" style="width:130px;float:right">结 &nbsp; 算</button>
+                        <div style="width:120px;float:left;margin:5px 0px;">合计：￥<span style="color:red;font-weight:bold;">{{request.session.total_mo}}</span> 元</div>
+                        <button type="submit" onclick="dosubmit()" class="btn btn-warning" style="width:100px;float:right">结 &nbsp; 算</button>
+                        <button type="button" onclick="window.location='{% url 'web:clearcart' %}'" class="btn btn-danger" style="width:60px;float:right;margin-right:20px;"> 清 空 </button>
                     </div>
              
             </div>
