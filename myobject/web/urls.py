@@ -11,7 +11,7 @@ urlpatterns = [
     path('web/', include([
         path('', IndexView.as_view(), name="web_index"),
         path('cart/add/<str:pid>', addcart, name='addcart'),
-        path('cart/change/', changecart, name='changecart'),
+        path('cart/change/<str:pid>', changecart, name='changecart'),
         path('cart/clear/', clearcart, name='clearcart'),
         path('cart/del/<str:pid>', delcart, name='delcart'),
     ])),
