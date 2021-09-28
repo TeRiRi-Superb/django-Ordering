@@ -42,6 +42,7 @@ class LoginView(View):
             return render(request, 'web/login.html', context)
 
         try:
+            shops = Shop.objects.filter(status=1).order_by('id')
             user = User.objects.get(username=username)
             # 记录店铺信息
             shop = Shop.objects.get(id=shop_id)
@@ -72,13 +73,18 @@ class LoginView(View):
                     request.session['productlist'] = productlist
                     return redirect(reverse('web:web_index'))
                 else:
-                    context = {'info': '账号或密码错误'}
+                    context = {'info': '账号或密码错误',
+                               'shops': shops
+                               }
             else:
-                context = {'info': '验证码错误'}
+                context = {'info': '验证码错误',
+                           'shops': shops
+                           }
 
         except Exception as e:
             context = {
-                'info': '账号或密码错误'
+                'info': '账号或密码错误',
+                'shops': shops,
             }
 
         return render(request, 'web/login.html', context)
