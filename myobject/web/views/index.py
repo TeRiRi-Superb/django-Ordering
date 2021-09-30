@@ -11,7 +11,7 @@ class IndexView(View):
 
         for cart in cartlist.values():
             print(cart)
-            total_mo = cart['num'] * cart['price']
+            total_mo += cart['num'] * cart['price']
 
         request.session['total_mo'] = total_mo
 
