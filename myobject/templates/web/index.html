@@ -63,7 +63,7 @@
       </div>
     </nav>
     <!-- 页头导航结束 -->
-
+    {% csrf_token %}
     <!-- 页面主体开始 -->
     <div class="container">
         <div class="col-md-4">
@@ -137,6 +137,37 @@
 
     <script src="{% static 'web/js/jquery.min.js' %}"></script>
     <script src="{% static 'web/js/bootstrap.min.js' %}"></script>
+<script>
+      //执行订单处理(下订单)
+      function dosubmit(){
+          {#//判断购物车中是否没有菜品#}
+          {#if($("table.table-striped tr").length == 1){#}
+          {#  alert("购物车中没有菜品选择！");#}
+          {#  return;#}
+          {#}#}
+          {#//询问是否提交订单#}
+          {#if(!window.confirm("确定要进行结算吗？")){#}
+          {#  return;#}
+          {#}#}
+          //获取要提交的数据
+          var ptype = $("input[name='ptype']:checked").val();
+          var bank = $("input[name='bank']:checked").val();
+          csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val()
+          //alert(ptype+":"+bank);
+          //执行ajax提交订单
+          param = {
+              'ptype':ptype,
+              'bank': bank,
+              'csrfmiddlewaretoken': csrfmiddlewaretoken
+          }
+          $.post('{% url 'web:showorder' 1%}', param ,function(res) {
+              if (res == 'Y'){
+                  window.location = '{% url 'web:showorder' 1%}'
+              }
+          })
+      }
+
+    </script>
 
 </body>
 </html>
